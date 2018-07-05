@@ -25,6 +25,8 @@ tempLogRate = 10  # Number of seconds between temperature logs
 tempThreshold = 65  # Threshold for temperature to throw fault
 voltThreshold = 0.35  # Threshold for voltage difference to throw fault
 
+splitTime = 1 # Number of seconds between trips to log
+
 tempLog = 'temp.csv'
 tempFaultLog = 'tempFault.csv'
 voltFaultLog = 'voltFault.csv'
@@ -65,12 +67,16 @@ S = tk.S
 E = tk.E
 W = tk.W
 
-# Set global flags for voltage fault and temperature fault
+# Set global flags and timers for voltage fault and temperature fault
 global voltFault
 global tempFault
+global voltTimer
+global tempTimer
 
 voltFault = 0
 tempFault = 0
+voltTimer = 0
+tempTimer = 0
 
 # Define function to reset the fault counts
 def refresh():
@@ -113,8 +119,8 @@ refresh.grid(row=2, column=2, sticky=N+S+E+W)
 # Define function to update GUI
 def updateGUI():
 	# Grab global variables
-	global tempFault
-	global voltFault
+	global tempFault, tempTimer
+	global voltFault, voltTimer
 
 	# Read new sensor values
 	newVolt = readVoltage()
@@ -128,27 +134,30 @@ def updateGUI():
 	faultFlag = False
 	if(float(newTemp) > tempThreshold):
 		faultFlag = True
-		tempFault = tempFault + 1
-		logger.warning('TEMP FAULT #' + str(tempFault))
 		temp.config(bg='red')
-		tempF.config(bg='red', text='Temp Fault x'+str(tempFault))
+		
+		if((time.time() - tempTimer) > splitTime):
+			logger.warning('TEMP FAULT #' + str(tempFault))
+			tempTimer = time.time()
+			tempFault = tempFault + 1
+			tempF.config(bg='red', text='Temp Fault x'+str(tempFault))
 	else:
 		temp.config(bg='white')
 
 	if(abs(float(newVolt) - 12) > voltThreshold):
 		faultFlag = True
-		voltFault = voltFault + 1
-		logger.warning('VOLT FAULT #' + str(voltFault))
 		voltage.config(bg='red')
-		voltF.config(bg='red', text='Voltage Fault x'+str(voltFault))
+		
+		if((time.time() - voltTimer) > splitTime):
+			logger.warning('VOLT FAULT #' + str(voltFault))
+			voltTimer = time.time()
+			voltFault = voltFault + 1
+			voltF.config(bg='red', text='Voltage Fault x'+str(voltFault))
 	else:
 		voltage.config(bg='white')
 	
 	root.update()
 	
-	if(faultFlag):
-		time.sleep(1)
-
 	root.after(int(1000/int(sampleRate)), updateGUI) # Set to update itself
 
 # Update for the first time
