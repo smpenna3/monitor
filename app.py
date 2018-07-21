@@ -72,7 +72,7 @@ def getValues():
             
     try:
         logger.debug("before: " + dataIn)
-        dataIn = dataIn.replace('$', '"')
+        dataIn = dataIn.replace('$', '"')[:-1]
         logger.debug("after: " + dataIn)
         dataJSON = json.loads(str(dataIn))
         logger.debug(dataJSON)
