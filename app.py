@@ -71,7 +71,7 @@ def getValues():
             logger.fatal('Could not get data second try')
             
     try:
-        dataSplit = dataIn.split()
+        dataSplit = dataIn.split(',')
         if(dataSplit[0] == 'temp' and dataSplit[2] == 'depth' and dataSplit[4] == 'n12' and dataSplit[6] == 'p12'):
                 positive12 = dataSplit[1]
                 negative12 = dataSplit[3]
