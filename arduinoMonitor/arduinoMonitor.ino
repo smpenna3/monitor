@@ -57,7 +57,7 @@ void loop()
 
       // Get the positive 12V reading
       float p12Reading = analogRead(P12) * convertFactor * voltageDivisionScale;
-
+      
       // Get the negative 12V reading
       float n12Reading = analogRead(N12) * convertFactor * voltageDivisionScale * -1.0;
 
