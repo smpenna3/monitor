@@ -73,10 +73,10 @@ def getValues():
     try:
         dataSplit = dataIn.split(',')
         if(dataSplit[0] == 'temp' and dataSplit[2] == 'depth' and dataSplit[4] == 'n12' and dataSplit[6] == 'p12'):
-                positive12 = dataSplit[1]
-                negative12 = dataSplit[3]
-                temp = dataSplit[5]
-                depth = dataSplit[7]
+                temp = dataSplit[1]
+                depth = dataSplit[3]
+                negative12 = dataSplit[5]
+                positive12 = dataSplit[7]
         else:
             logger.error('Incorrect data format: ' + str(dataSplit))
             positive12 = 0.0
@@ -179,11 +179,12 @@ root.title('Monitor') # Set a title for the window
 v = tk.Label(root, text='Voltage: ', font="Times 35 bold", padx=10, pady=10)
 v.grid(row=0, column=0, sticky=N+S+E+W)
 voltageP = tk.Label(root, text='0', font="Times 20") # Positive voltage
-voltageP.grid(row=0, column=1, sticky=N+S+E+W)
-voltageN = tk.Label(root, text='0', font="Times 20") # Negative voltage
+voltageP.grid(row=0, column=1, sticky=N+S+E+W, columnspan=2)
+
+'''voltageN = tk.Label(root, text='0', font="Times 20") # Negative voltage
 voltageN.grid(row=0, column=2, sticky=N+S+E+W)
 voltF = tk.Label(root, text='Voltage Good', font='Times 20', padx=10, pady=40, bg='green')
-voltF.grid(row=3, column=0, sticky=N+S+E+W)
+voltF.grid(row=3, column=0, sticky=N+S+E+W)'''
 
 t = tk.Label(root, text='Temp (F): ', font="Times 35 bold", padx=10, pady=10)
 t.grid(row=1, column=0, sticky=N+S+E+W)
@@ -217,7 +218,7 @@ def updateGUI():
 	# Update the GUI at the set rate
     if((time.time() - guiTimer) > guiRate):  
         voltageP.config(text=p12) # Update the positive voltage
-        voltageN.config(text=n12) # Update the negative voltage
+        #voltageN.config(text=n12) # Update the negative voltage
         temp.config(text=newTemp) # Update the temp
         depthLabel.config(text=depth) # Update the depth
         guiTimer = time.time()
@@ -254,7 +255,7 @@ def updateGUI():
     else:
         voltageP.config(bg='white')
         
-    if(abs(float(n12) - 12) > voltThreshold):
+    '''if(abs(float(n12) - 12) > voltThreshold):
         faultFlag = True
         voltageN.config(bg='red')
 		
@@ -265,6 +266,7 @@ def updateGUI():
             voltF.config(bg='red', text='Voltage Fault x'+str(voltFault))
     else:
         voltageN.config(bg='white')
+    '''
 	
     root.update()
 	
