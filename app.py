@@ -72,6 +72,7 @@ def getValues():
             
     try:
         logger.debug("before: " + dataIn)
+        logger.debug('type: ' + str(class(dataIn)))
         dataIn.replace('$', '"')
         logger.debug("after: " + dataIn)
         dataJSON = json.loads(str(dataIn))
