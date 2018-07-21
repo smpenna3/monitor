@@ -59,20 +59,19 @@ def getValues():
     # Read datafrom arduino
     try:
         ser.write('data'.encode('ascii', 'ignore')) # Tell the arduino to send data
-        dataIn = str(ser.readline()) # get the data from the arduino
+        dataIn = unicode(str(ser.readline()), 'utf-8') # get the data from the arduino
         #logger.debug(dataIn)
     except:
         logger.warning('Could not get data first try')
         logger.warning(traceback.print_exc())
         try:
             ser.write('data')
-            dataIn = str(ser.readline())
+            dataIn = unicode(str(ser.readline()), 'utf-8')
         except:
             logger.fatal('Could not get data second try')
             
     try:
         logger.debug("before: " + dataIn)
-        logger.debug('type: ' + str(type(dataIn)))
         dataIn.replace('$', '"')
         logger.debug("after: " + dataIn)
         dataJSON = json.loads(str(dataIn))
