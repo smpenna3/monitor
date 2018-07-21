@@ -71,9 +71,9 @@ def getValues():
             logger.fatal('Could not get data second try')
             
     try:
-        logger.debug(dataIn)
+        logger.debug("before: " + dataIn)
         dataIn.replace('$', '"')
-        logger.debug(dataIn)
+        logger.debug("after: " + dataIn)
         dataJSON = json.loads(str(dataIn))
         logger.debug(dataJSON)
     except:
