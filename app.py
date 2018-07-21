@@ -47,7 +47,7 @@ arduinoSerialPort = '/dev/ttyUSB0'
 
 # Setup arduino serial
 try:
-    ser = serial.Serial(port, 9600, timeout=0.01)
+    ser = serial.Serial(arduinoSerialPort, 9600, timeout=0.01)
 except:
     logger.fatal('Could not find arduino')
     logger.fatal(traceback.print_exc())
