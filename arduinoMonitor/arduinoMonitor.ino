@@ -30,8 +30,15 @@ void setup()
   pinMode(P12, INPUT);
   pinMode(N12, INPUT);
   pinMode(depth, INPUT);
+  pinMode(13, OUTPUT);
 
-  tempsensor.wake(); // Wake the sensor
+  digitalWrite(13, LOW);
+
+  if(!tempsensor.begin()){
+    digitalWrite(13, HIGH);
+  }
+
+  //tempsensor.wake(); // Wake the sensor
 }
 
 void loop()

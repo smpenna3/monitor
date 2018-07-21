@@ -171,6 +171,7 @@ def refresh():
 
 # Setup a root window to show the monitor in
 root = tk.Tk()
+root.attributes("-fullscreen", True) # Set fullscreen
 root.geometry('480x320') # Set the size of the window
 root.resizable(width=False, height=False) # Set the window size to be fixed
 root.title('Monitor') # Set a title for the window
