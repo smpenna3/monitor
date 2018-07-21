@@ -60,6 +60,7 @@ def getValues():
     try:
         ser.write('data'.encode('ascii', 'ignore')) # Tell the arduino to send data
         dataIn = ser.readline() # get the data from the arduino
+        logger.debug(dataIn)
     except:
         logger.warning('Could not get data first try')
         logger.warning(traceback.print_exc())
