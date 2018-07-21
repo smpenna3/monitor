@@ -78,7 +78,7 @@ def getValues():
     temp = dataJSON['temp']
     depth = dataJSON['depth']
     
-	return positive12, negative12, temp, depth
+    return positive12, negative12, temp, depth
 
 
 #####################################################
