@@ -70,8 +70,9 @@ void loop()
       String n12Str = String(n12Reading);
       String depthStr = String(depthReading);
       String tempStr = String(f);
-      
-      String outData = String("{'temp':'" + tempStr + "', 'depth':'" + depthStr + "', 'n12':'" + n12Str + "', 'p12':'" + p12Str + "'}" + "\n");
+
+      // " is replaced with $ for string formatting, changed later in python
+      String outData = String("'{$temp$:$" + tempStr + "$, $depth$:$" + depthStr + "$, $n12$:$" + n12Str + "$, $p12$:$" + p12Str + "$}" + "/n");
 
       Serial.print(outData);
 
