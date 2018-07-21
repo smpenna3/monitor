@@ -6,6 +6,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import json
 import serial
 import traceback
+import sys
 
 # Setup logger
 logger = logging.getLogger('main')
@@ -51,6 +52,8 @@ try:
 except:
     logger.fatal('Could not find arduino')
     logger.fatal(traceback.print_exc())
+    sys.exit('No serial connections')
+    
 
 # Define function to randomly generate a number to emulate voltage readings
 def getValues():
