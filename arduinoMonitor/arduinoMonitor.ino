@@ -72,7 +72,8 @@ void loop()
       String tempStr = String(f);
 
       // " is replaced with $ for string formatting, changed later in python
-      String outData = String("'{$temp$:$" + tempStr + "$, $depth$:$" + depthStr + "$, $n12$:$" + n12Str + "$, $p12$:$" + p12Str + "$}'python" + "/n");
+      String outData = String("temp, " + tempStr + ", depth, " + depthStr + ", n12, " + n12Str + ", p12, " + p12Str + "\n");
+      //String outData = String("'{$temp$:$" + tempStr + "$, $depth$:$" + depthStr + "$, $n12$:$" + n12Str + "$, $p12$:$" + p12Str + "$}" + "/n");
 
       Serial.print(outData);
 

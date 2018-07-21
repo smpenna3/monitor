@@ -71,20 +71,27 @@ def getValues():
             logger.fatal('Could not get data second try')
             
     try:
-        logger.debug("before: " + dataIn)
-        dataIn = dataIn.replace('$', '"')[:-2]
-        logger.debug("after: " + dataIn)
-        dataJSON = json.loads(str(dataIn))
-        logger.debug(dataJSON)
+        dataSplit = dataIn.split()
+        if(dataSplit[0] == 'temp' and dataSplit[2] == 'depth' and dataSplit[4] == 'n12' and dataSplit[6] == 'p12'):
+                positive12 = dataSplit[1]
+                negative12 = dataSplit[3]
+                temp = dataSplit[5]
+                depth = dataSplit[7]
+        else:
+            logger.error('Incorrect data format: ' + str(dataSplit))
+            positive12 = 0.0
+            negative12 = 0.0
+            temp = 0.0
+            depth = 0.0
     except:
-        dataJSON = json.loads('{"temp":"0.0", "depth":"0.0", "n12":"0.0", "p12":"0.0"}')
+        positive12 = 0.0
+        negative12 = 0.0
+        temp = 0.0
+        depth = 0.0
         logger.warning("Didn't load JSON")
         logger.warning(traceback.print_exc())
     
-    positive12 = dataJSON['p12']
-    negative12 = dataJSON['n12']
-    temp = dataJSON['temp']
-    depth = dataJSON['depth']
+
     
     return positive12, negative12, temp, depth
 
