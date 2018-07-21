@@ -3,6 +3,9 @@ import numpy as np
 import time
 import logging
 from apscheduler.schedulers.background import BackgroundScheduler
+import json
+import serial
+import traceback
 
 # Setup logger
 logger = logging.getLogger('main')
@@ -30,18 +33,52 @@ depthThreshold = 100 # Threshold for depth (meters)
 
 splitTime = 1 # Number of seconds between trips to log
 
+# Logging file parameters
 tempLog = 'temp.csv'
 tempFaultLog = 'tempFault.csv'
 voltFaultLog = 'voltFault.csv'
 depthLog = 'depth.csv'
+
+# ARDUINO SERIAL PORT
+arduinoSerialPort = '/dev/ttyUSB0'
 ######################################################
 ######################################################
 
+
+# Setup arduino serial
+try:
+    ser = serial.Serial(port, 9600, timeout=0.01)
+except:
+    logger.fatal('Could not find arduino')
+    logger.fatal(traceback.print_exc())
 
 # Define function to randomly generate a number to emulate voltage readings
 def getValues():
     # positive 12, negative 12, temp, depth
-	return '%.3f'%(np.random.normal(12, 0.25)), '%.3f'%(np.random.normal(12, 0.25)), '%.3f'%(np.random.normal(12, 0.25)), '%.3f'%(np.random.normal(12, 0.25))
+    
+    # Read datafrom arduino
+    try:
+        ser.write('data') # Tell the arduino to send data
+        dataIn = ser.readline() # get the data from the arduino
+    except:
+        logger.warning('Could not get data first try')
+        try:
+            ser.write('data')
+            dataIn = ser.readline()
+        except:
+            logger.fatal('Could not get data second try')
+            
+    try:
+        dataJSON = json.loads(dataIn)
+    except:
+        dataJSON = json.loads("{'temp':'ERROR', 'depth':'ERROR', 'n12':'ERROR', 'p12':'ERROR'}")
+    
+    positive12 = dataJSON['p12']
+    negative12 = dataJSON['n12']
+    temp = dataJSON['temp']
+    depth = dataJSON['depth']
+    
+	return positive12, negative12, temp, depth
 
 
 #####################################################

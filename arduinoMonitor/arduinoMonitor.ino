@@ -46,7 +46,7 @@ void loop()
       readString += c; //makes the string readString
     }
   }
-
+  //Serial.println(readString);
   if (readString.length() >0)
   {
     // Check if the "data" command was received, if so send the data
@@ -71,9 +71,9 @@ void loop()
       String depthStr = String(depthReading);
       String tempStr = String(f);
       
-      String outData = String("{'temp':'" + tempStr + "', 'depth':'" + depthStr + "', 'n12':'" + n12Str + "', 'p12':'" + p12Str + "'}");
+      String outData = String("{'temp':'" + tempStr + "', 'depth':'" + depthStr + "', 'n12':'" + n12Str + "', 'p12':'" + p12Str + "'}" + "\n");
 
-      Serial.println(outData);
+      Serial.print(outData);
 
       readString = "";
     }
