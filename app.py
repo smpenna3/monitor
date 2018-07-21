@@ -40,7 +40,7 @@ voltFaultLog = 'voltFault.csv'
 depthLog = 'depth.csv'
 
 # ARDUINO SERIAL PORT
-arduinoSerialPort = '/dev/ttyUSB0'
+arduinoSerialPort = '/dev/ttyACM0'
 ######################################################
 ######################################################
 
@@ -69,9 +69,9 @@ def getValues():
             logger.fatal('Could not get data second try')
             
     try:
-        dataJSON = json.loads(dataIn)
+        dataJSON = json.loads(str(dataIn))
     except:
-        dataJSON = json.loads("{'temp':'ERROR', 'depth':'ERROR', 'n12':'ERROR', 'p12':'ERROR'}")
+        dataJSON = json.loads('{"temp":"ERROR", "depth":"ERROR", "n12":"ERROR", "p12":"ERROR"}')
     
     positive12 = dataJSON['p12']
     negative12 = dataJSON['n12']
