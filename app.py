@@ -75,6 +75,8 @@ def getValues():
         logger.debug(dataJSON)
     except:
         dataJSON = json.loads('{"temp":"0.0", "depth":"0.0", "n12":"0.0", "p12":"0.0"}')
+        logger.warning("Didn't load JSON")
+        logger.warning(traceback.print_exc())
     
     positive12 = dataJSON['p12']
     negative12 = dataJSON['n12']
