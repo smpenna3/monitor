@@ -19,13 +19,14 @@ logger.addHandler(sh)
 
 ######################################################
 ################# PARAMETERS #########################
-sampleRate = 120  # Sampling rate in Hz
-guiRate = 0.2 # Number of seconds between gui updates
+sampleRate = 200  # Sampling rate in Hz
+guiRate = 0.3 # Number of seconds between gui updates
 tempLogRate = 10  # Number of seconds between temperature logs
-depthLogRate = 1 # Number of seconds between depth logs
+depthLogRate = 0.5 # Number of seconds between depth logs
 
-tempThreshold = 65  # Threshold for temperature to throw fault
-voltThreshold = 0.35  # Threshold for voltage difference to throw fault
+tempThreshold = 100  # Threshold for temperature to throw fault
+voltThreshold = 0.1  # Threshold for voltage difference to throw fault
+depthThreshold = 100 # Threshold for depth (meters)
 
 splitTime = 1 # Number of seconds between trips to log
 
@@ -59,6 +60,7 @@ def logTemp():
 
 # Setup ten second timer to log temperature
 s.add_job(logTemp, 'interval', seconds=tempLogRate, id='tempLog')
+logger.info('Setup job for temperature logging')
 
 ######################################################
 ######################################################
@@ -76,6 +78,7 @@ def logDepth():
 
 # Setup ten second timer to log temperature
 s.add_job(logDepth, 'interval', seconds=depthLogRate, id='depthLog')
+logger.info('Setup job for depth logging')
 
 ######################################################
 ######################################################
@@ -128,17 +131,24 @@ voltageP.grid(row=0, column=1, sticky=N+S+E+W)
 voltageN = tk.Label(root, text='0', font="Times 20") # Negative voltage
 voltageN.grid(row=0, column=2, sticky=N+S+E+W)
 voltF = tk.Label(root, text='Voltage Good', font='Times 20', padx=10, pady=40, bg='green')
-voltF.grid(row=2, column=0, sticky=N+S+E+W)
+voltF.grid(row=3, column=0, sticky=N+S+E+W)
 
 t = tk.Label(root, text='Temp (F): ', font="Times 35 bold", padx=10, pady=10)
 t.grid(row=1, column=0, sticky=N+S+E+W)
 temp = tk.Label(root, text='0', font="Times 20")
 temp.grid(row=1, column=1, sticky=N+S+E+W, columnspan=2)
 tempF = tk.Label(root, text='Temp Good  ', font='Times 20', padx=10, pady=40, bg='green')
-tempF.grid(row=2, column=1, sticky=N+S+E+W)
+tempF.grid(row=3, column=1, sticky=N+S+E+W)
+
+d = tk.Label(root, text='Depth (m): ', font="Times 35 bold", padx=10, pady=10)
+d.grid(row=2, column=0, sticky=N+S+E+W)
+depthLabel = tk.Label(root, text='0', font="Times 20")
+depthLabel.grid(row=2, column=1, sticky=N+S+E+W, columnspan=2)
 
 refresh = tk.Button(root, text='Reset', font="Times 15", padx=10, pady=40, command=refresh)
-refresh.grid(row=2, column=2, sticky=N+S+E+W)
+refresh.grid(row=3, column=2, sticky=N+S+E+W)
+
+logger.info('GUI frame setup')
 
 # Define function to update GUI
 def updateGUI():
@@ -157,6 +167,7 @@ def updateGUI():
         voltageP.config(text=p12) # Update the positive voltage
         voltageN.config(text=n12) # Update the negative voltage
         temp.config(text=newTemp) # Update the temp
+        depthLabel.config(text=depth) # Update the depth
         guiTimer = time.time()
 
 	# Check for faults
@@ -172,6 +183,12 @@ def updateGUI():
             tempF.config(bg='red', text='Temp Fault x'+str(tempFault))
     else:
         temp.config(bg='white')
+        
+    if(float(depth) > depthThreshold):
+        logger.warning('DEPTH FAULT')
+        depthLabel.config(bg='red')
+    else:
+        depthLabel.config(bg='white')
     
     if(abs(float(p12) - 12) > voltThreshold):
         faultFlag = True

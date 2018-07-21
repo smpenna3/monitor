@@ -16,7 +16,8 @@ int depth = A0; // Depth sensor
 float convertFactor = 5.0/1023.0;
 
 // Amplify from the voltage division of 12->4
-float voltageDivisionScale = 3;
+// This is the OPOSITE of the voltage division
+float voltageDivisionScale = (10.3+4.686)/4.686;
 
 // Depth sensor is 60 meters per volt
 float depthConvertFactor = 60;
@@ -76,5 +77,9 @@ void loop()
 
       readString = "";
     }
+  }
+
+  if(readString.length() > 4){
+    readString = "";
   }
 }
