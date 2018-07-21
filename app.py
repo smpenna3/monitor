@@ -60,7 +60,7 @@ def getValues():
     try:
         ser.write('data'.encode('ascii', 'ignore')) # Tell the arduino to send data
         dataIn = ser.readline() # get the data from the arduino
-        logger.debug(dataIn)
+        #logger.debug(dataIn)
     except:
         logger.warning('Could not get data first try')
         logger.warning(traceback.print_exc())
@@ -72,6 +72,7 @@ def getValues():
             
     try:
         dataJSON = json.loads(str(dataIn))
+        logger.debug(dataJSON)
     except:
         dataJSON = json.loads('{"temp":"0.0", "depth":"0.0", "n12":"0.0", "p12":"0.0"}')
     
