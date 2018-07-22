@@ -183,7 +183,7 @@ root.title('Monitor') # Set a title for the window
 
 # Setup the elements in the GUI
 v = tk.Label(root, text='Voltage: ', font="Times 35 bold", padx=10, pady=10)
-v.grid(row=0, column=0, sticky=N+S+E+W)
+v.grid(row=0, column=0, sticky=N+S+E+W, columnspan=2)
 voltageP = tk.Label(root, text='0', font="Times 20") # Positive voltage
 voltageP.grid(row=0, column=1, sticky=N+S+E+W, columnspan=2)
 
@@ -193,7 +193,7 @@ voltF = tk.Label(root, text='Voltage Good', font='Times 20', padx=10, pady=40, b
 voltF.grid(row=3, column=0, sticky=N+S+E+W)
 
 t = tk.Label(root, text='Temp (F): ', font="Times 35 bold", padx=10, pady=10)
-t.grid(row=1, column=0, sticky=N+S+E+W)
+t.grid(row=1, column=0, sticky=N+S+E+W, columnspan=2)
 temp = tk.Label(root, text='0', font="Times 20")
 temp.grid(row=1, column=1, sticky=N+S+E+W, columnspan=2)
 tempF = tk.Label(root, text='Temp Good  ', font='Times 20', padx=10, pady=40, bg='green')
@@ -206,6 +206,8 @@ depthLabel.grid(row=2, column=1, sticky=N+S+E+W, columnspan=2)
 
 refresh = tk.Button(root, text='Reset', font="Times 15", padx=10, pady=40, command=refresh)
 refresh.grid(row=3, column=2, sticky=N+S+E+W)
+close = tk.Button(root, text='Quit')
+close.grid(row=3, column=4, sticky=N+S+E+W)
 
 logger.info('GUI frame setup')
 
