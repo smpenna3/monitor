@@ -17,7 +17,8 @@ float convertFactor = 5.0/1023.0;
 
 // Amplify from the voltage division of 12->4
 // This is the OPOSITE of the voltage division
-float voltageDivisionScale = (10.3+4.686)/4.686;
+// Calibrated for use with Rasbperry Pi with 5.2V power supply
+float voltageDivisionScale = (10.025 + 4.686)/4.686;
 
 // Depth sensor is 60 meters per volt
 float depthConvertFactor = 60;
