@@ -172,6 +172,14 @@ def refresh():
 
 	tempF.config(bg='green', text='Temp Good')
 	voltF.config(bg='green', text='Voltage Good')
+    
+    
+    
+# Function to close window
+def goodbye():
+    logger.warning('Goodbye')
+    root.destroy()
+    sys.exit()
 	
 
 # Setup a root window to show the monitor in
@@ -192,7 +200,7 @@ voltageN.grid(row=0, column=2, sticky=N+S+E+W)'''
 voltF = tk.Label(root, text='Voltage Good', font='Times 20', padx=10, pady=40, bg='green')
 voltF.grid(row=3, column=0, sticky=N+S+E+W)
 
-t = tk.Label(root, text='Temp (F): ', font="Times 35 bold", padx=10, pady=10)
+t = tk.Button(root, text='Temp (F): ', font="Times 35 bold", padx=10, pady=10, command=goodbye)
 t.grid(row=1, column=0, sticky=N+S+E+W)
 temp = tk.Label(root, text='0', font="Times 20")
 temp.grid(row=1, column=1, sticky=N+S+E+W, columnspan=2)
